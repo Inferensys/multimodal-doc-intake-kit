@@ -1,0 +1,15 @@
+{
+  "document_id": "contract-2026-04-15-001",
+  "source": {
+    "uri": "s3://demo-docs/contracts/master-services-agreement.pdf",
+    "mime_type": "application/pdf",
+    "checksum_sha256": "2c64d7f544f6176be0bdb7669a7f2da4cb4f7ea77a3f2d8ec16f4fb115630f7e"
+  },
+  "profile": "contract_v1",
+  "locale": "en-US",
+  "submitted_at": "2026-04-15T09:05:00Z",
+  "metadata": {
+    "tenant": "acme-sandbox",
+    "region": "us-east-1"
+  }
+}

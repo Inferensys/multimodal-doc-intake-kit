@@ -1,0 +1,46 @@
+{
+  "document_id": "contract-2026-04-15-001",
+  "profile": "contract_v1",
+  "status": "review_pending",
+  "source_checksum_sha256": "2c64d7f544f6176be0bdb7669a7f2da4cb4f7ea77a3f2d8ec16f4fb115630f7e",
+  "extracted_fields": [
+    {
+      "name": "counterparty_name",
+      "value": "Northwind Analytics LLC",
+      "confidence": 0.98,
+      "provenance": {
+        "page": 1,
+        "bbox": [
+          104.0,
+          168.0,
+          421.0,
+          197.0
+        ]
+      }
+    },
+    {
+      "name": "termination_notice_days",
+      "value": 30,
+      "confidence": 0.71,
+      "provenance": {
+        "page": 14,
+        "bbox": [
+          92.0,
+          582.0,
+          301.0,
+          612.0
+        ]
+      }
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "8cc808cca143e609b35fe73b52fa90470f5548ea20a0f9cc918f25706f213f80",
+      "text": "Either party may terminate this Agreement by providing thirty (30) days written notice...",
+      "section_path": "13.Term and Termination/13.2 Notice",
+      "page": 14,
+      "char_start": 0,
+      "char_end": 103
+    }
+  ]
+}

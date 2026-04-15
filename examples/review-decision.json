@@ -1,0 +1,14 @@
+{
+  "document_id": "contract-2026-04-15-001",
+  "reviewer_id": "ops.review.17",
+  "field_decisions": [
+    {
+      "field_name": "termination_notice_days",
+      "action": "correct",
+      "corrected_value": 45,
+      "reason_code": "domain_override",
+      "note": "Clause amendment on page 21 supersedes base termination section."
+    }
+  ],
+  "submitted_at": "2026-04-15T09:09:21Z"
+}
