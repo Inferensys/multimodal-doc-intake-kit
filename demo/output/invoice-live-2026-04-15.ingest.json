@@ -1,0 +1,118 @@
+{
+  "document_id": "invoice-live-2026-04-15",
+  "profile": "invoice_v1",
+  "status": "normalized",
+  "source_checksum_sha256": "f349c0377448806316fed1124258ef77126a4f30506fa2f972fa1ba0644ee71e",
+  "source_mime_type": "application/pdf",
+  "processing_mode": "azure_foundry",
+  "processing_trace": [
+    {
+      "stage": "layout",
+      "provider": "azure-document-intelligence",
+      "model": "prebuilt-layout",
+      "status": "completed",
+      "notes": "Markdown layout extraction with page-aware structure."
+    },
+    {
+      "stage": "normalize",
+      "provider": "azure-openai",
+      "model": "gpt-5-mini",
+      "status": "completed",
+      "notes": "Schema normalization by profile with evidence snippets."
+    },
+    {
+      "stage": "embed",
+      "provider": "azure-openai",
+      "model": "text-embedding-3-small",
+      "status": "completed",
+      "notes": "Chunk vectors generated for retrieval."
+    }
+  ],
+  "layout_excerpt_markdown": "Cascade Field Services\nInvoice Number: INV-2048-APR\nInvoice Date: 2026-04-11\nBill To: Redwood Grid Systems\nCurrency: USD\n\n\n<table>\n<tr>\n<th>Item</th>\n<th>Hours</th>\n<th>Rate</th>\n<th>Amount</th>\n</tr>\n<tr>\n<td>On-site diagnostics for line 12B</td>\n<td>6</td>\n<td>$185.00</td>\n<td>$1,110.00</td>\n</tr>\n<tr>\n<td>Emergency relay replacement</td>\n<td>14</td>\n<td>$240.00</td>\n<td>$3,360.00</td>\n</tr>\n<tr>\n<td>After-hours commissioning window</td>\n<td>18</td>\n<td>$310.00</td>\n<td>$5,580.00</td>\n</tr>\n<tr>\n<td>Protective equipment surcharge</td>\n<td>-</td>\n<td>-</td>\n<td>$1,795.00</td>\n</tr>\n<tr>\n<td>Regional travel and standby</td>\n<td>-</td>\n<td>-</td>\n<td>$999.50</td>\n</tr>\n</table>\n\n\nTotal Due: $12,844.50\n\nPayment Terms: Net 15\nRemit within 15 calendar days to avoid a scheduling hold.\n",
+  "extracted_fields": [
+    {
+      "name": "invoice_number",
+      "value": "INV-2048-APR",
+      "confidence": 0.99,
+      "provenance": {
+        "page": 1,
+        "bbox": [
+          0.9916,
+          0.7991,
+          3.7798,
+          1.9865
+        ],
+        "snippet": "Cascade Field Services Invoice Number: INV-2048-APR Invoice Date: 2026-04-11 Bill To: Redwood Grid Systems Currency: USD"
+      },
+      "reviewed": false,
+      "review_reason_code": null,
+      "review_note": null
+    },
+    {
+      "name": "currency",
+      "value": "USD",
+      "confidence": 0.99,
+      "provenance": {
+        "page": 1,
+        "bbox": [
+          0.9916,
+          0.7991,
+          3.7798,
+          1.9865
+        ],
+        "snippet": "Currency: USD"
+      },
+      "reviewed": false,
+      "review_reason_code": null,
+      "review_note": null
+    },
+    {
+      "name": "total_due_cents",
+      "value": 1284450,
+      "confidence": 0.99,
+      "provenance": {
+        "page": 1,
+        "bbox": [
+          5.7935,
+          4.2987,
+          7.5023,
+          4.4753
+        ],
+        "snippet": "Total Due: $12,844.50"
+      },
+      "reviewed": false,
+      "review_reason_code": null,
+      "review_note": null
+    },
+    {
+      "name": "vendor_name",
+      "value": "Cascade Field Services",
+      "confidence": 0.98,
+      "provenance": {
+        "page": 1,
+        "bbox": [
+          0.9916,
+          0.7991,
+          3.7798,
+          1.9865
+        ],
+        "snippet": "Cascade Field Services Invoice Number: INV-2048-APR Invoice Date: 2026-04-11 Bill To: Redwood Grid Systems Currency: USD"
+      },
+      "reviewed": false,
+      "review_reason_code": null,
+      "review_note": null
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "5c2f83096e12500f7df5470108ffcda1bffdf70f3eb965ed81e9629ccde79712",
+      "text": "Cascade Field Services Invoice Number: INV-2048-APR Invoice Date: 2026-04-11 Bill To: Redwood Grid Systems Currency: USD\n\nItem\n\nHours\n\nRate\n\nAmount\n\nOn-site diagnostics for line 12B\n\n6\n\n$185.00\n\n$1,110.00\n\nEmergency relay replacement\n\n14\n\n$240.00\n\n$3,360.00\n\nAfter-hours commissioning window\n\n18\n\n$310.00\n\n$5,580.00\n\nProtective equipment surcharge\n\n-\n\n-\n\n$1,795.00\n\nRegional travel and standby\n\n-\n\n-\n\n$999.50\n\nTotal Due: $12,844.50\n\nPayment Terms: Net 15 Remit within 15 calendar days to avoid a scheduling hold.",
+      "section_path": "Document/Body",
+      "page": 1,
+      "char_start": 0,
+      "char_end": 512,
+      "embedding_model": "text-embedding-3-small",
+      "embedding_dimensions": 1536
+    }
+  ]
+}

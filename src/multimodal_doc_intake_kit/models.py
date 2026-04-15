@@ -21,12 +21,23 @@ class DocumentStatus(str, Enum):
     EXPORTED = "exported"
 
 
+class ProcessingMode(str, Enum):
+    DETERMINISTIC = "deterministic"
+    AZURE_FOUNDATION = "azure_foundry"
+
+
 ScalarValue = Union[str, int, float, bool, None]
 
 
 class SourceDocument(BaseModel):
     uri: HttpUrl | str
-    mime_type: Literal["application/pdf", "image/png", "image/jpeg", "application/tiff"]
+    mime_type: Literal[
+        "application/pdf",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "image/png",
+        "image/jpeg",
+        "application/tiff",
+    ]
     checksum_sha256: Optional[str] = Field(default=None, pattern=r"^[a-f0-9]{64}$")
 
 
@@ -41,7 +52,8 @@ class DocumentIntakeRequest(BaseModel):
 
 class FieldProvenance(BaseModel):
     page: int = Field(ge=1)
-    bbox: List[float] = Field(min_length=4, max_length=4)
+    bbox: Optional[List[float]] = Field(default=None, min_length=4, max_length=4)
+    snippet: Optional[str] = None
 
 
 class ExtractedField(BaseModel):
@@ -61,6 +73,16 @@ class Chunk(BaseModel):
     page: int = Field(ge=1)
     char_start: int = Field(ge=0)
     char_end: int = Field(ge=0)
+    embedding_model: Optional[str] = None
+    embedding_dimensions: Optional[int] = Field(default=None, ge=1)
+
+
+class ProcessingStep(BaseModel):
+    stage: Literal["layout", "normalize", "embed"]
+    provider: str
+    model: str
+    status: Literal["completed", "skipped", "failed"]
+    notes: Optional[str] = None
 
 
 class NormalizedDocument(BaseModel):
@@ -68,6 +90,10 @@ class NormalizedDocument(BaseModel):
     profile: Profile
     status: DocumentStatus
     source_checksum_sha256: Optional[str] = None
+    source_mime_type: Optional[str] = None
+    processing_mode: ProcessingMode = ProcessingMode.DETERMINISTIC
+    processing_trace: List[ProcessingStep] = Field(default_factory=list)
+    layout_excerpt_markdown: Optional[str] = None
     extracted_fields: List[ExtractedField]
     chunks: List[Chunk]
 
@@ -100,8 +126,21 @@ class ReviewDecision(BaseModel):
     submitted_at: datetime
 
 
+class ChunkEmbeddingPreview(BaseModel):
+    chunk_id: str
+    dimensions: int = Field(ge=1)
+    vector_preview: List[float] = Field(default_factory=list)
+
+
+class DocumentArtifacts(BaseModel):
+    document_id: str
+    layout_markdown: Optional[str] = None
+    chunk_embeddings: List[ChunkEmbeddingPreview] = Field(default_factory=list)
+
+
 class DocumentRecord(BaseModel):
     intake: DocumentIntakeRequest
     normalized: NormalizedDocument
     last_review: Optional[ReviewDecision] = None
-
+    layout_markdown: Optional[str] = None
+    chunk_embeddings: Dict[str, List[float]] = Field(default_factory=dict)

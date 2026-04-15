@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from fastapi import FastAPI, HTTPException
 
-from .models import DocumentIntakeRequest, NormalizedDocument, ReviewDecision
+from .azure_backend import LivePipelineError
+from .models import DocumentArtifacts, DocumentIntakeRequest, NormalizedDocument, ReviewDecision
 from .service import (
     DocumentNotFoundError,
     DocumentService,
@@ -23,12 +24,22 @@ def create_app() -> FastAPI:
 
     @app.post("/api/ingest", response_model=NormalizedDocument)
     def ingest(request: DocumentIntakeRequest) -> NormalizedDocument:
-        return service.ingest(request)
+        try:
+            return service.ingest(request)
+        except LivePipelineError as exc:
+            raise HTTPException(status_code=502, detail=str(exc)) from exc
 
     @app.get("/api/documents/{document_id}", response_model=NormalizedDocument)
     def get_document(document_id: str) -> NormalizedDocument:
         try:
             return service.get_document(document_id)
+        except DocumentNotFoundError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+    @app.get("/api/artifacts/{document_id}", response_model=DocumentArtifacts)
+    def get_artifacts(document_id: str) -> DocumentArtifacts:
+        try:
+            return service.get_artifacts(document_id)
         except DocumentNotFoundError as exc:
             raise HTTPException(status_code=404, detail=str(exc)) from exc
 
@@ -54,4 +65,3 @@ def create_app() -> FastAPI:
 
 
 app = create_app()
-

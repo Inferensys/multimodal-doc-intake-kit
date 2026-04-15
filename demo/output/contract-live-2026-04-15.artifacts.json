@@ -1,0 +1,20 @@
+{
+  "document_id": "contract-live-2026-04-15",
+  "layout_markdown": "# Enterprise Renewal and Services Addendum\n\nCounterparty: Northwind Analytics LLC\n\nEffective Date: 2026-04-01\n\nJurisdiction: Delaware\n\nTerm and Termination. The renewal term is 12 months. Either party may terminate the agreement with forty-five (45) days written notice after the initial stabilization period.\n\nOperational Review. The vendor must deliver a quarterly controls review and attach the incident trend appendix with each renewal checkpoint.\n",
+  "chunk_embeddings": [
+    {
+      "chunk_id": "de55ec321afe71e63cc5e9a5a85ccef3e159b23c10293e1e999b39c1e8a252d6",
+      "dimensions": 1536,
+      "vector_preview": [
+        -0.032795,
+        0.068723,
+        0.097257,
+        0.019036,
+        -0.056573,
+        0.061521,
+        -0.048161,
+        -0.000552
+      ]
+    }
+  ]
+}

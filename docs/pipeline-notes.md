@@ -11,6 +11,12 @@ This document defines implementation details for the document intake lifecycle u
 5. `reviewed`
 6. `exported`
 
+In the current codebase:
+
+- `parsing` maps to either the deterministic scaffold or Azure Document Intelligence layout extraction
+- `normalized` maps to either deterministic templates or Azure OpenAI schema normalization
+- chunk embeddings are generated during the same ingest cycle when the embedding deployment is configured
+
 Every stage transition should emit an immutable event with:
 
 - `document_id`
@@ -31,6 +37,11 @@ Suggested defaults:
 
 Confidence thresholds must be extraction-profile specific (invoice, contract, policy-manual, etc).
 
+The repository currently uses:
+
+- auto-accept: `>= 0.92`
+- review queue: `0.60 - 0.91`
+
 ## Review Rules
 
 - Reviews are field-scoped, not document-scoped.
@@ -47,6 +58,7 @@ Chunk objects must carry provenance:
 
 - source page index
 - optional bounding boxes
+- evidence snippet when available
 - section path (`h1/h2/h3`)
 - character offsets in normalized text body
 

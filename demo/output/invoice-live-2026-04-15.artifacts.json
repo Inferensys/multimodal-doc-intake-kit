@@ -1,0 +1,20 @@
+{
+  "document_id": "invoice-live-2026-04-15",
+  "layout_markdown": "Cascade Field Services\nInvoice Number: INV-2048-APR\nInvoice Date: 2026-04-11\nBill To: Redwood Grid Systems\nCurrency: USD\n\n\n<table>\n<tr>\n<th>Item</th>\n<th>Hours</th>\n<th>Rate</th>\n<th>Amount</th>\n</tr>\n<tr>\n<td>On-site diagnostics for line 12B</td>\n<td>6</td>\n<td>$185.00</td>\n<td>$1,110.00</td>\n</tr>\n<tr>\n<td>Emergency relay replacement</td>\n<td>14</td>\n<td>$240.00</td>\n<td>$3,360.00</td>\n</tr>\n<tr>\n<td>After-hours commissioning window</td>\n<td>18</td>\n<td>$310.00</td>\n<td>$5,580.00</td>\n</tr>\n<tr>\n<td>Protective equipment surcharge</td>\n<td>-</td>\n<td>-</td>\n<td>$1,795.00</td>\n</tr>\n<tr>\n<td>Regional travel and standby</td>\n<td>-</td>\n<td>-</td>\n<td>$999.50</td>\n</tr>\n</table>\n\n\nTotal Due: $12,844.50\n\nPayment Terms: Net 15\nRemit within 15 calendar days to avoid a scheduling hold.\n",
+  "chunk_embeddings": [
+    {
+      "chunk_id": "5c2f83096e12500f7df5470108ffcda1bffdf70f3eb965ed81e9629ccde79712",
+      "dimensions": 1536,
+      "vector_preview": [
+        -0.020104,
+        -0.001973,
+        0.062575,
+        -0.007535,
+        -0.041953,
+        0.00117,
+        -0.016776,
+        -0.020895
+      ]
+    }
+  ]
+}

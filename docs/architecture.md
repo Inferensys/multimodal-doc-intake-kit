@@ -10,22 +10,37 @@
 ## Component Breakdown
 
 - `ingest-api`: accepts upload metadata and extraction profile selection.
-- `blob-store`: immutable source document storage.
-- `parser-worker`: OCR + layout parsing + table/form region detection.
-- `normalizer`: converts parser output into canonical domain schema.
+- `source-loader`: resolves local file paths or remote URLs.
+- `layout-parser`: OCR + layout parsing + Markdown reconstruction.
+- `normalizer`: converts layout output into canonical domain schema.
 - `chunk-builder`: emits retrieval segments with provenance metadata.
+- `embedding-stage`: turns chunks into retrieval vectors.
 - `review-queue`: stores unresolved fields and assignment metadata.
 - `export-api`: serves canonical normalized payloads and chunks.
 
 ## Data Flow
 
 1. Client posts ingest request with profile and source URI.
-2. Ingest API writes a `queued` record and dispatches parser job.
-3. Parser emits raw regions (text blocks, tables, key-value groups).
-4. Normalizer maps raw regions into typed fields and confidence scores.
+2. Source loader resolves the URI into either a local byte stream or a remote URL payload.
+3. Layout parser emits Markdown plus page-aware paragraph structure.
+4. Normalizer maps layout output into typed fields and confidence scores.
 5. Low-confidence fields generate review tasks.
 6. Chunk builder emits retrieval entries with section/page anchors.
-7. Export API serves normalized output once checks pass.
+7. Embedding stage generates retrieval vectors for each chunk.
+8. Export API serves normalized output once checks pass.
+
+## Current Repository Modes
+
+- `deterministic`
+  - fully local
+  - no provider dependencies
+  - used by tests and contract fixtures
+- `azure`
+  - Azure Document Intelligence `prebuilt-layout`
+  - Azure OpenAI `gpt-5-mini` for normalization
+  - Azure OpenAI `text-embedding-3-small` for chunk vectors
+
+The live mode is provider-backed but still preserves the same response contracts as the deterministic mode.
 
 ## Failure Modes and Handling
 

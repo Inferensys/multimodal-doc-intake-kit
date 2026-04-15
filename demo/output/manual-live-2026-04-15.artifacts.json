@@ -1,0 +1,20 @@
+{
+  "document_id": "manual-live-2026-04-15",
+  "layout_markdown": "Warehouse Safety Reset Procedure\n\nRevision: 17\n\n1\\. Lock out conveyor power before opening the relay bay.\n\n2\\. Verify pressure bleed-off and sign the maintenance board.\n\n3\\. Reset the thermal breaker and record amperage deltas\n\n4\\. Quarterly review required by the owning service team.\n\n[x] Supervisor sign-off\n\u2612\n\n[] Compliance sign-off\n\nField note: relay cabinet 12Bshows a recurring heat spike after 40 minutes\n",
+  "chunk_embeddings": [
+    {
+      "chunk_id": "6c4fdd1cfda67f058ca7456756f61bca178fe3cef6f267c1a64f437420fc7461",
+      "dimensions": 1536,
+      "vector_preview": [
+        0.010724,
+        0.070562,
+        0.01726,
+        -0.025086,
+        -0.080996,
+        0.037142,
+        -0.024846,
+        -0.004981
+      ]
+    }
+  ]
+}

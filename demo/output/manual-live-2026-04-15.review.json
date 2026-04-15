@@ -1,0 +1,14 @@
+{
+  "document_id": "manual-live-2026-04-15",
+  "reviewer_id": "demo.review.bot",
+  "field_decisions": [
+    {
+      "field_name": "revision",
+      "action": "correct",
+      "corrected_value": "r7",
+      "reason_code": "domain_override",
+      "note": "Automated demo review pass using expected field truth set."
+    }
+  ],
+  "submitted_at": "2026-04-15T14:23:42.023408Z"
+}

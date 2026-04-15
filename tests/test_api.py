@@ -84,3 +84,13 @@ def test_review_rejects_unknown_field():
     assert response.status_code == 400
     assert "Unknown field" in response.json()["detail"]
 
+
+def test_artifacts_endpoint_returns_empty_payload_for_deterministic_mode():
+    client = TestClient(create_app())
+    client.post("/api/ingest", json=_ingest_payload())
+
+    response = client.get("/api/artifacts/contract-2026-04-15-001")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["document_id"] == "contract-2026-04-15-001"
+    assert payload["chunk_embeddings"] == []

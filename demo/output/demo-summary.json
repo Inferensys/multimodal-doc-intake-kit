@@ -1,0 +1,51 @@
+[
+  {
+    "document_id": "contract-live-2026-04-15",
+    "profile": "contract_v1",
+    "status": "exported",
+    "trace": [
+      "prebuilt-layout",
+      "gpt-5-mini",
+      "text-embedding-3-small"
+    ],
+    "fields": {
+      "counterparty_name": "Northwind Analytics LLC",
+      "effective_date": "2026-04-01",
+      "termination_notice_days": 45
+    },
+    "chunks": 1
+  },
+  {
+    "document_id": "invoice-live-2026-04-15",
+    "profile": "invoice_v1",
+    "status": "exported",
+    "trace": [
+      "prebuilt-layout",
+      "gpt-5-mini",
+      "text-embedding-3-small"
+    ],
+    "fields": {
+      "invoice_number": "INV-2048-APR",
+      "currency": "USD",
+      "total_due_cents": 1284450,
+      "vendor_name": "Cascade Field Services"
+    },
+    "chunks": 1
+  },
+  {
+    "document_id": "manual-live-2026-04-15",
+    "profile": "manual_v1",
+    "status": "exported",
+    "trace": [
+      "prebuilt-layout",
+      "gpt-5-mini",
+      "text-embedding-3-small"
+    ],
+    "fields": {
+      "document_title": "Warehouse Safety Reset Procedure",
+      "revision": "r7",
+      "requires_review_cycle": true
+    },
+    "chunks": 1
+  }
+]

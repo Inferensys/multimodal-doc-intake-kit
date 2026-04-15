@@ -2,7 +2,11 @@ from __future__ import annotations
 
 from typing import Dict
 
+from .azure_backend import AzureDocumentPipeline
+from .config import Settings
 from .models import (
+    DocumentArtifacts,
+    ChunkEmbeddingPreview,
     DocumentIntakeRequest,
     DocumentRecord,
     DocumentStatus,
@@ -27,16 +31,49 @@ class ReviewValidationError(RuntimeError):
 
 
 class DocumentService:
-    def __init__(self, store: InMemoryDocumentStore) -> None:
+    def __init__(self, store: InMemoryDocumentStore, settings: Settings | None = None) -> None:
         self._store = store
+        self._settings = settings or Settings.from_env()
+        self._azure_pipeline = (
+            AzureDocumentPipeline(self._settings) if self._settings.live_provider_enabled else None
+        )
 
     def ingest(self, request: DocumentIntakeRequest) -> NormalizedDocument:
+        if self._azure_pipeline is not None:
+            result = self._azure_pipeline.ingest(request)
+            self._store.save(
+                DocumentRecord(
+                    intake=request,
+                    normalized=result.normalized,
+                    layout_markdown=result.layout_markdown,
+                    chunk_embeddings=result.chunk_embeddings,
+                )
+            )
+            return result.normalized
+
         normalized = normalize_document(request)
         self._store.save(DocumentRecord(intake=request, normalized=normalized))
         return normalized
 
     def get_document(self, document_id: str) -> NormalizedDocument:
         return self._load(document_id).normalized
+
+    def get_artifacts(self, document_id: str) -> DocumentArtifacts:
+        record = self._load(document_id)
+        previews = []
+        for chunk_id, vector in record.chunk_embeddings.items():
+            previews.append(
+                ChunkEmbeddingPreview(
+                    chunk_id=chunk_id,
+                    dimensions=len(vector),
+                    vector_preview=[round(value, 6) for value in vector[:8]],
+                )
+            )
+        return DocumentArtifacts(
+            document_id=document_id,
+            layout_markdown=record.layout_markdown,
+            chunk_embeddings=previews,
+        )
 
     def review_document(self, document_id: str, review: ReviewDecision) -> NormalizedDocument:
         record = self._load(document_id)
@@ -106,4 +143,3 @@ def _unresolved_review_fields(document: NormalizedDocument):
         for field in document.extracted_fields
         if AUTO_ACCEPT_THRESHOLD > field.confidence >= 0.60 and not field.reviewed
     ]
-

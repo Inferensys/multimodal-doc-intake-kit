@@ -1,0 +1,100 @@
+{
+  "document_id": "manual-live-2026-04-15",
+  "profile": "manual_v1",
+  "status": "exported",
+  "source_checksum_sha256": "87d7d109a858b8c1553742486b67aa5091a4ca5d69d5b52a20d2ddfcc03fd623",
+  "source_mime_type": "image/png",
+  "processing_mode": "azure_foundry",
+  "processing_trace": [
+    {
+      "stage": "layout",
+      "provider": "azure-document-intelligence",
+      "model": "prebuilt-layout",
+      "status": "completed",
+      "notes": "Markdown layout extraction with page-aware structure."
+    },
+    {
+      "stage": "normalize",
+      "provider": "azure-openai",
+      "model": "gpt-5-mini",
+      "status": "completed",
+      "notes": "Schema normalization by profile with evidence snippets."
+    },
+    {
+      "stage": "embed",
+      "provider": "azure-openai",
+      "model": "text-embedding-3-small",
+      "status": "completed",
+      "notes": "Chunk vectors generated for retrieval."
+    }
+  ],
+  "layout_excerpt_markdown": "Warehouse Safety Reset Procedure\n\nRevision: 17\n\n1\\. Lock out conveyor power before opening the relay bay.\n\n2\\. Verify pressure bleed-off and sign the maintenance board.\n\n3\\. Reset the thermal breaker and record amperage deltas\n\n4\\. Quarterly review required by the owning service team.\n\n[x] Supervisor sign-off\n\u2612\n\n[] Compliance sign-off\n\nField note: relay cabinet 12Bshows a recurring heat spike after 40 minutes\n",
+  "extracted_fields": [
+    {
+      "name": "document_title",
+      "value": "Warehouse Safety Reset Procedure",
+      "confidence": 0.95,
+      "provenance": {
+        "page": 1,
+        "bbox": [
+          108.0,
+          119.0,
+          273.0,
+          132.0
+        ],
+        "snippet": "Warehouse Safety Reset Procedure"
+      },
+      "reviewed": false,
+      "review_reason_code": null,
+      "review_note": null
+    },
+    {
+      "name": "revision",
+      "value": "r7",
+      "confidence": 1.0,
+      "provenance": {
+        "page": 1,
+        "bbox": [
+          108.0,
+          170.0,
+          163.0,
+          182.0
+        ],
+        "snippet": "Revision: 17"
+      },
+      "reviewed": true,
+      "review_reason_code": "domain_override",
+      "review_note": "Automated demo review pass using expected field truth set."
+    },
+    {
+      "name": "requires_review_cycle",
+      "value": true,
+      "confidence": 0.92,
+      "provenance": {
+        "page": 1,
+        "bbox": [
+          109.0,
+          339.0,
+          373.0,
+          353.0
+        ],
+        "snippet": "4. Quarterly review required by the owning service team."
+      },
+      "reviewed": false,
+      "review_reason_code": null,
+      "review_note": null
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "6c4fdd1cfda67f058ca7456756f61bca178fe3cef6f267c1a64f437420fc7461",
+      "text": "Warehouse Safety Reset Procedure\n\nRevision: 17\n\n1. Lock out conveyor power before opening the relay bay.\n\n2. Verify pressure bleed-off and sign the maintenance board.\n\n3. Reset the thermal breaker and record amperage deltas\n\n4. Quarterly review required by the owning service team.\n\n[x] Supervisor sign-off :selected:\n\n[] Compliance sign-off\n\nField note: relay cabinet 12Bshows a recurring heat spike after 40 minutes",
+      "section_path": "Document/Body",
+      "page": 1,
+      "char_start": 0,
+      "char_end": 417,
+      "embedding_model": "text-embedding-3-small",
+      "embedding_dimensions": 1536
+    }
+  ]
+}
