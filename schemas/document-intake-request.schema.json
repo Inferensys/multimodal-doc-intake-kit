@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://inferensys.github.io/multimodal-doc-intake-kit/document-intake-request.schema.json",
+  "title": "DocumentIntakeRequest",
+  "type": "object",
+  "required": [
+    "document_id",
+    "source",
+    "profile",
+    "submitted_at"
+  ],
+  "properties": {
+    "document_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9._:-]{6,128}$"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "uri",
+        "mime_type"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "mime_type": {
+          "type": "string",
+          "enum": [
+            "application/pdf",
+            "image/png",
+            "image/jpeg",
+            "application/tiff"
+          ]
+        },
+        "checksum_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "profile": {
+      "type": "string",
+      "enum": [
+        "invoice_v1",
+        "contract_v1",
+        "manual_v1",
+        "generic_v1"
+      ]
+    },
+    "locale": {
+      "type": "string",
+      "default": "en-US"
+    },
+    "submitted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false
+}
