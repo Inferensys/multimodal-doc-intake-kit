@@ -1,0 +1,31 @@
+[project]
+name = "multimodal-doc-intake-kit"
+version = "0.1.0"
+description = "Schema-first document ingestion service with deterministic normalization and review flow."
+readme = "README.md"
+requires-python = ">=3.9,<4.0"
+license = { file = "LICENSE" }
+authors = [{ name = "Inferensys Engineering" }]
+dependencies = [
+  "fastapi>=0.115.0,<1.0.0",
+  "uvicorn>=0.30.0,<1.0.0",
+  "pydantic>=2.8.0,<3.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0,<9.0.0",
+  "httpx>=0.27.0,<1.0.0",
+]
+
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/multimodal_doc_intake_kit"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+

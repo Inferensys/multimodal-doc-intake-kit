@@ -1,6 +1,6 @@
 # multimodal-doc-intake-kit
 
-Reference repository for turning heterogeneous documents (PDF, scans, forms, manuals) into:
+FastAPI service for turning heterogeneous documents (PDF, scans, forms, manuals) into:
 
 - validated structured records
 - retrieval-ready chunks with provenance
@@ -24,14 +24,15 @@ Out of scope:
 - vector database operations (indexing is integration-specific)
 - production auth and tenancy hardening
 
-## Working Set
+## Current implementation
 
-Start with the reference contracts and example payloads:
+The first slice is intentionally single-process and in-memory:
 
-1. Inspect the ingest contract in [`schemas/document-intake-request.schema.json`](./schemas/document-intake-request.schema.json).
-2. Compare it with [`examples/ingest-request.json`](./examples/ingest-request.json).
-3. Trace the normalized output in [`examples/normalized-document.json`](./examples/normalized-document.json).
-4. Review the operator correction payload in [`examples/review-decision.json`](./examples/review-decision.json).
+- `POST /api/ingest` accepts a typed intake request and produces a normalized record.
+- `GET /api/documents/{id}` returns the latest normalized document.
+- `POST /api/review/{id}` applies field-level decisions and resolves review-required fields.
+- `GET /api/exports/{id}` emits the canonical normalized document once review constraints are satisfied.
+- deterministic normalization and chunk generation come from profile-specific templates seeded by the intake payload
 
 ## Data Contracts
 
@@ -45,13 +46,25 @@ Sample payloads:
 - [`examples/normalized-document.json`](./examples/normalized-document.json)
 - [`examples/review-decision.json`](./examples/review-decision.json)
 
-## API Sketch
+## Project layout
 
-- `POST /api/ingest` submit document metadata + extraction profile
-- `GET /api/documents/{id}` fetch normalized record + extraction confidence
-- `POST /api/review/{id}` submit field-level corrections
-- `POST /api/search` query normalized chunks by lexical/semantic filters
-- `GET /api/exports/{id}` export canonical JSON for downstream workflows
+```text
+.
+├── docs/
+│   ├── architecture.md
+│   ├── implementation-plan.md
+│   └── pipeline-notes.md
+├── src/multimodal_doc_intake_kit/
+│   ├── main.py
+│   ├── models.py
+│   ├── pipeline.py
+│   ├── service.py
+│   └── store.py
+├── tests/
+│   └── test_api.py
+├── schemas/
+└── examples/
+```
 
 ## Processing Topology
 
@@ -67,18 +80,53 @@ Sample payloads:
                                       [Export API]
 ```
 
+## Run locally
+
+Prerequisites:
+
+- Python 3.9
+- `uv`
+
+```bash
+uv sync --extra dev
+uv run uvicorn multimodal_doc_intake_kit.main:app --app-dir src --reload
+```
+
+## Test
+
+```bash
+uv run pytest -q
+```
+
+## Example flow
+
+Ingest:
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/ingest \
+  -H "Content-Type: application/json" \
+  -d @examples/ingest-request.json
+```
+
+Review:
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/review/contract-2026-04-15-001 \
+  -H "Content-Type: application/json" \
+  -d @examples/review-decision.json
+```
+
+Export:
+
+```bash
+curl http://127.0.0.1:8000/api/exports/contract-2026-04-15-001
+```
+
 Detailed architecture notes: [`docs/architecture.md`](./docs/architecture.md).
 Stage semantics and field-confidence rules: [`docs/pipeline-notes.md`](./docs/pipeline-notes.md).
 
-## Demo Artifacts
+## Notes
 
-Image placeholders and capture instructions are in [`assets/README.md`](./assets/README.md).
-
-## Repository Layout
-
-```text
-docs/       architecture and pipeline notes
-examples/   request/response payloads for local testing
-schemas/    JSON schemas for ingest, normalize, and review contracts
-assets/     screenshot placeholders and demo capture instructions
-```
+- Review is field-scoped and only required for confidence values in the review band.
+- Export is blocked until all review-required fields are resolved.
+- Storage is in-memory for this slice; restart clears state.
